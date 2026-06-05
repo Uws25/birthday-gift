@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday 🌹</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --red:#c0182a; --red-light:#e8304a; --red-deep:#7a0c1a;
+  --gold:#c8943a; --cream:#fdf5f0;
+  --dark:#1a0608; --mid:#2e0c10;
+  --text:rgba(255,255,255,0.93); --muted:rgba(255,255,255,0.52);
+  --soft:rgba(255,255,255,0.07);
+}
+html,body { width:100%; height:100%; overflow:hidden; }
+body {
+  font-family:'Lato',sans-serif;
+  background:var(--dark); color:var(--text);
+  cursor:pointer; user-select:none;
+}
+
+/* ── STARS ── */
+.stars { position:fixed; inset:0; pointer-events:none; z-index:0; }
+.star {
+  position:absolute; border-radius:50%; background:white;
+  animation:twinkle var(--d,3s) ease-in-out infinite var(--dl,0s);
+}
+@keyframes twinkle { 0%,100%{opacity:0.15;} 50%{opacity:0.7;} }
+
+/* ── PETALS ── */
+.petal-wrap { position:fixed; inset:0; pointer-events:none; z-index:5; overflow:hidden; }
+.petal {
+  position:absolute; top:-60px;
+  border-radius:50% 20% 50% 20%;
+  animation:petalFall var(--dur,8s) linear var(--delay,0s) forwards;
+}
+@keyframes petalFall {
+  0%   { transform:translateY(0) rotate(0deg) translateX(0); opacity:0.85; }
+  25%  { transform:translateY(25vh) rotate(90deg) translateX(30px); }
+  50%  { transform:translateY(50vh) rotate(200deg) translateX(-20px); opacity:0.7; }
+  75%  { transform:translateY(75vh) rotate(300deg) translateX(35px); }
+  100% { transform:translateY(110vh) rotate(420deg) translateX(-10px); opacity:0; }
+}
+
+/* ── SLIDE ENGINE ── */
+.slides-wrap {
+  position:fixed; inset:0; z-index:1;
+}
+.slide {
+  position:absolute; inset:0;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  padding:2rem;
+  opacity:0; pointer-events:none;
+  transition:opacity 0.7s ease, transform 0.7s ease;
+  transform:translateX(60px);
+  text-align:center;
+}
+.slide.active {
+  opacity:1; pointer-events:all;
+  transform:translateX(0);
+}
+.slide.exit {
+  opacity:0; transform:translateX(-60px);
+  pointer-events:none;
+}
+
+/* ── PROGRESS DOTS ── */
+.dots {
+  position:fixed; bottom:2rem; left:50%; transform:translateX(-50%);
+  display:flex; gap:8px; z-index:20;
+}
+.dot {
+  width:7px; height:7px; border-radius:50%;
+  background:rgba(192,24,42,0.3);
+  border:0.5px solid rgba(192,24,42,0.5);
+  transition:all 0.3s;
+}
+.dot.active { background:var(--red-light); width:22px; border-radius:4px; }
+
+/* ── HINT ── */
+.hint {
+  position:fixed; bottom:4.5rem; left:50%; transform:translateX(-50%);
+  font-size:0.68rem; letter-spacing:2px; text-transform:uppercase;
+  color:rgba(255,255,255,0.25); z-index:20;
+  animation:hintPulse 2.5s ease-in-out infinite;
+}
+@keyframes hintPulse { 0%,100%{opacity:0.25;} 50%{opacity:0.6;} }
+
+/* ── SLIDE 1 : HERO ── */
+#s1 { background:radial-gradient(ellipse at 50% 30%, #3a0810 0%, var(--dark) 70%); }
+.hero-roses { display:flex; gap:4px; justify-content:center; margin-bottom:1.6rem; }
+.rose-icon { font-size:2rem; animation:roseSway var(--s,3s) ease-in-out infinite var(--ds,0s); }
+@keyframes roseSway { 0%,100%{transform:rotate(-5deg) scale(1);} 50%{transform:rotate(5deg) scale(1.1);} }
+.hero-label { font-size:0.7rem; letter-spacing:4px; text-transform:uppercase; color:var(--red-light); margin-bottom:0.8rem; }
+.hero-title {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.8rem,7vw,5rem); line-height:1.1; color:var(--cream);
+  margin-bottom:0.5rem;
+}
+.hero-title span {
+  background:linear-gradient(135deg,#e8304a 0%,#c0182a 40%,var(--gold) 100%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+}
+.hero-name {
+  font-family:'Playfair Display',serif; font-style:italic;
+  font-size:clamp(1.6rem,4vw,2.8rem); color:var(--gold); margin-bottom:1.2rem;
+}
+.hero-sub { font-size:1rem; color:var(--muted); max-width:420px; line-height:1.85; margin-bottom:2.2rem; }
+.btn-main {
+  display:inline-flex; align-items:center; gap:10px;
+  background:linear-gradient(135deg,var(--red),var(--red-deep));
+  border:1px solid rgba(232,48,74,0.4); color:white;
+  font-size:0.82rem; letter-spacing:2px; text-transform:uppercase; font-weight:700;
+  padding:1rem 2.6rem; border-radius:50px; cursor:pointer;
+  box-shadow:0 4px 28px rgba(192,24,42,0.45);
+  transition:transform 0.2s, box-shadow 0.2s;
+  animation:btnPulse 2.5s ease-in-out infinite;
+}
+@keyframes btnPulse {
+  0%,100%{box-shadow:0 4px 28px rgba(192,24,42,0.45);}
+  50%{box-shadow:0 4px 48px rgba(232,48,74,0.7);}
+}
+.btn-main:hover { transform:translateY(-3px); }
+.float-rose { animation:floatUp 2.8s ease-in-out infinite; display:inline-block; }
+@keyframes floatUp { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-7px);} }
+
+/* ── SLIDE 2 : COUNTDOWN ── */
+#s2 { background:radial-gradient(ellipse at 50% 60%, #2e0c10 0%, var(--dark) 70%); }
+.section-title {
+  font-family:'Playfair Display',serif; font-size:clamp(1.8rem,4vw,2.6rem);
+  color:var(--cream); margin-bottom:0.4rem;
+}
+.accent { color:var(--red-light); }
+.section-sub { font-size:0.8rem; color:var(--muted); letter-spacing:1.5px; margin-bottom:2.5rem; }
+.countdown-grid { display:flex; justify-content:center; gap:1.2rem; flex-wrap:wrap; }
+.cd-box {
+  background:var(--soft); border:0.5px solid rgba(192,24,42,0.35);
+  border-radius:18px; padding:1.6rem 2rem; min-width:100px;
+  transition:border-color 0.3s, transform 0.2s; position:relative;
+}
+.cd-box::before { content:'🌹'; position:absolute; top:5px; right:7px; font-size:0.65rem; opacity:0.4; }
+.cd-num {
+  font-family:'Playfair Display',serif; font-size:3.4rem; font-weight:700;
+  color:var(--red-light); display:block; line-height:1;
+}
+.cd-label { font-size:0.68rem; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-top:6px; }
+.cd-msg { margin-top:2rem; font-family:'Playfair Display',serif; font-style:italic; font-size:1.05rem; color:var(--gold); }
+.slide-roses { font-size:1.3rem; letter-spacing:10px; color:rgba(192,24,42,0.5); margin-bottom:1.5rem; }
+
+/* ── SLIDE 3 : PESAN ── */
+#s3 { background:radial-gradient(ellipse at 30% 50%, #2e0c10 0%, var(--dark) 65%); }
+.msg-rose-row { display:flex; justify-content:center; gap:6px; margin-bottom:1.5rem; font-size:1.5rem; }
+.msg-card {
+  background:linear-gradient(135deg,rgba(192,24,42,0.1),rgba(26,6,8,0.6));
+  border:0.5px solid rgba(192,24,42,0.4); border-radius:24px;
+  padding:2.5rem 3rem; max-width:640px; position:relative;
+}
+.msg-card::before {
+  content:'🌹'; position:absolute; top:-16px; left:50%;
+  transform:translateX(-50%); font-size:1.8rem;
+  background:var(--dark); padding:0 12px;
+}
+.msg-quote {
+  font-family:'Playfair Display',serif; font-size:1.08rem;
+  line-height:2; font-style:italic; margin-bottom:1.5rem;
+}
+.msg-from { font-size:0.76rem; letter-spacing:2px; color:var(--red-light); text-transform:uppercase; }
+
+/* ── SLIDE 4 : GALLERY ── */
+#s4 { background:radial-gradient(ellipse at 70% 40%, #2e0c10 0%, var(--dark) 65%); }
+.gallery-grid {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:10px; max-width:560px; width:100%; margin-top:0;
+}
+.gallery-item {
+  aspect-ratio:1; border-radius:14px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:2.2rem; border:0.5px solid rgba(192,24,42,0.2);
+  position:relative; overflow:hidden; cursor:default;
+  transition:transform 0.25s, border-color 0.25s;
+}
+.gallery-item:hover { transform:scale(1.04); border-color:var(--red-light); }
+.g-label { position:absolute; bottom:5px; font-size:0.6rem; letter-spacing:1px; color:rgba(255,255,255,0.4); text-transform:uppercase; }
+.g1{background:linear-gradient(135deg,#3a0810,#1a0406);}
+.g2{background:linear-gradient(135deg,#200a08,#150504);}
+.g3{background:linear-gradient(135deg,#2a0c0c,#180606);}
+.g4{background:linear-gradient(135deg,#1e0a10,#120508);}
+.g5{background:linear-gradient(135deg,#350a10,#1e060c);}
+.g6{background:linear-gradient(135deg,#240c08,#160604);}
+
+/* ── SLIDE 5 : UCAPAN ── */
+#s5 { background:radial-gradient(ellipse at 50% 70%, #2e0c10 0%, var(--dark) 65%); }
+.wish-list { display:flex; flex-direction:column; gap:10px; max-width:580px; width:100%; margin-bottom:1.2rem; max-height:32vh; overflow-y:auto; }
+.wish-list::-webkit-scrollbar { width:3px; }
+.wish-list::-webkit-scrollbar-track { background:transparent; }
+.wish-list::-webkit-scrollbar-thumb { background:rgba(192,24,42,0.3); border-radius:4px; }
+.wish-item {
+  background:var(--soft); border:0.5px solid rgba(192,24,42,0.18);
+  border-radius:14px; padding:0.9rem 1.2rem;
+  display:flex; align-items:flex-start; gap:10px; text-align:left;
+  transition:border-color 0.25s;
+}
+.wish-item:hover { border-color:rgba(192,24,42,0.4); }
+.wish-avatar {
+  width:34px; height:34px; border-radius:50%; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  font-size:0.72rem; font-weight:700;
+  background:rgba(192,24,42,0.2); color:var(--red-light);
+}
+.wish-content { flex:1; }
+.wish-name { font-size:0.8rem; font-weight:700; color:var(--cream); margin-bottom:3px; }
+.wish-text { font-size:0.82rem; color:var(--muted); line-height:1.6; }
+.wish-time { font-size:0.65rem; color:rgba(255,255,255,0.28); margin-top:4px; }
+.wish-form { display:flex; flex-direction:column; gap:8px; max-width:580px; width:100%; }
+.wish-form input, .wish-form textarea {
+  background:rgba(192,24,42,0.06); border:0.5px solid rgba(192,24,42,0.28);
+  border-radius:10px; padding:0.8rem 1rem;
+  color:var(--text); font-family:'Lato',sans-serif; font-size:0.85rem;
+  outline:none; resize:none; transition:border-color 0.25s;
+}
+.wish-form input:focus, .wish-form textarea:focus { border-color:var(--red-light); }
+.wish-form input::placeholder, .wish-form textarea::placeholder { color:rgba(255,255,255,0.28); }
+.btn-send {
+  background:transparent; border:0.5px solid var(--red-light);
+  color:var(--red-light); padding:0.75rem 1.8rem; border-radius:50px;
+  font-size:0.78rem; letter-spacing:2px; text-transform:uppercase;
+  cursor:pointer; transition:background 0.25s,color 0.25s; align-self:flex-end;
+}
+.btn-send:hover { background:var(--red-light); color:white; }
+.final-roses { font-size:1.4rem; letter-spacing:8px; margin-top:1.2rem; color:rgba(192,24,42,0.55); }
+
+/* ── CONFETTI ── */
+.conf {
+  position:fixed; border-radius:2px;
+  animation:confFall linear forwards; pointer-events:none; z-index:100;
+}
+@keyframes confFall {
+  0%{transform:translateY(-10px) rotate(0deg);opacity:1;}
+  100%{transform:translateY(100vh) rotate(720deg);opacity:0;}
+}
+</style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+<div class="petal-wrap" id="petals"></div>
+
+<!-- ══ DOTS ══ -->
+<div class="dots" id="dots"></div>
+<p class="hint" id="hint">ketuk / klik di mana saja untuk lanjut 🌹</p>
+
+<div class="slides-wrap" id="slides">
+
+<!-- SLIDE 1 : HERO -->
+<section class="slide active" id="s1">
+  <div class="hero-roses">
+    <span class="rose-icon" style="--s:3.2s;--ds:0s">🌹</span>
+    <span class="rose-icon" style="--s:2.8s;--ds:0.3s">🌹</span>
+    <span class="rose-icon" style="--s:3.5s;--ds:0.6s">🌹</span>
+    <span class="rose-icon" style="--s:2.6s;--ds:0.9s">🌹</span>
+    <span class="rose-icon" style="--s:3.1s;--ds:0.4s">🌹</span>
+    <span class="rose-icon" style="--s:2.9s;--ds:0.7s">🌹</span>
+    <span class="rose-icon" style="--s:3.3s;--ds:0.2s">🌹</span>
+  </div>
+  <p class="hero-label">✦ &nbsp; Hari Istimewamu &nbsp; ✦</p>
+  <h1 class="hero-title">Happy <span>Birthday,</span></h1>
+  <!-- ✏️ GANTI NAMA -->
+  <p class="hero-name">Sahabatku Tercinta 🌹</p>
+  <!-- ✏️ GANTI DESKRIPSI -->
+  <p class="hero-sub">Di hari yang ajaib ini, bunga mawar merah mekar untukmu — secantik senyummu dan semerah cintaku untukmu.</p>
+  <button class="btn-main" id="btn-hero" onclick="nextSlide(event)">
+    <span class="float-rose">🌹</span> Rayakan Bersama!
+  </button>
+</section>
+
+<!-- SLIDE 2 : COUNTDOWN -->
+<section class="slide" id="s2">
+  <p class="slide-roses">🌹 🥀 🌹 🥀 🌹</p>
+  <h2 class="section-title">Hitung <span class="accent">Mundur</span></h2>
+  <!-- ✏️ GANTI TANGGAL DI SCRIPT BAWAH: BIRTHDAY_MONTH & BIRTHDAY_DAY -->
+  <p class="section-sub">Menuju hari istimewamu</p>
+  <div class="countdown-grid">
+    <div class="cd-box"><span class="cd-num" id="cd-days">--</span><span class="cd-label">Hari</span></div>
+    <div class="cd-box"><span class="cd-num" id="cd-hours">--</span><span class="cd-label">Jam</span></div>
+    <div class="cd-box"><span class="cd-num" id="cd-mins">--</span><span class="cd-label">Menit</span></div>
+    <div class="cd-box"><span class="cd-num" id="cd-secs">--</span><span class="cd-label">Detik</span></div>
+  </div>
+  <p class="cd-msg" id="cd-message"></p>
+</section>
+
+<!-- SLIDE 3 : PESAN -->
+<section class="slide" id="s3">
+  <div class="msg-rose-row">🌹 🥀 🌹 🥀 🌹</div>
+  <h2 class="section-title">Pesan <span class="accent">Untukmu</span></h2>
+  <br>
+  <div class="msg-card">
+    <!-- ✏️ GANTI PESAN -->
+    <p class="msg-quote">"Seperti mawar merah yang mekar di pagi hari — kamu selalu membawa keindahan dan kehangatan ke dalam hidupku. Di hari spesialmu ini, aku berharap semua impianmu mekar seindah bunga favoritmu. Kamu layak mendapat semua hal terbaik di dunia. 🌹"</p>
+    <!-- ✏️ GANTI NAMA PENGIRIM -->
+    <p class="msg-from">— Dari sahabatmu yang mencintaimu 🌹</p>
+  </div>
+</section>
+
+<!-- SLIDE 4 : GALLERY -->
+<section class="slide" id="s4">
+  <h2 class="section-title">Galeri <span class="accent">Kenangan</span></h2>
+  <p class="section-sub" style="margin-bottom:1.4rem">Momen manis kita bersama</p>
+  <div class="gallery-grid">
+    <!-- ✏️ GANTI EMOJI DENGAN <img src="foto.jpg" style="width:100%;height:100%;object-fit:cover"> -->
+    <div class="gallery-item g1">🌹<span class="g-label">Momen 1</span></div>
+    <div class="gallery-item g2">🌹<span class="g-label">Momen 2</span></div>
+    <div class="gallery-item g3">🌹<span class="g-label">Momen 3</span></div>
+    <div class="gallery-item g4">🌹<span class="g-label">Momen 4</span></div>
+    <div class="gallery-item g5">🌹<span class="g-label">Momen 5</span></div>
+    <div class="gallery-item g6">🌹<span class="g-label">Momen 6</span></div>
+  </div>
+</section>
+
+<!-- SLIDE 5 : UCAPAN -->
+<section class="slide" id="s5">
+  <h2 class="section-title">Tulis <span class="accent">Ucapan</span></h2>
+  <p class="section-sub">Bagikan doamu 🌹</p>
+  <div class="wish-list" id="wish-list">
+    <div class="wish-item">
+      <div class="wish-avatar">AN</div>
+      <div class="wish-content">
+        <p class="wish-name">Anita 🌹</p>
+        <p class="wish-text">Selamat ulang tahun! Semoga selalu sehat dan bahagia 🌹</p>
+        <p class="wish-time">2 jam lalu</p>
+      </div>
+    </div>
+    <div class="wish-item">
+      <div class="wish-avatar">RI</div>
+      <div class="wish-content">
+        <p class="wish-name">Rini 🥀</p>
+        <p class="wish-text">Happy birthday bestie! Secantik mawar merahmu! 🌹💖</p>
+        <p class="wish-time">5 jam lalu</p>
+      </div>
+    </div>
+  </div>
+  <div class="wish-form" onclick="stopProp(event)">
+    <input type="text" id="w-name" placeholder="Namamu" maxlength="30">
+    <textarea id="w-text" rows="2" placeholder="Tulis ucapan spesialmu... 🌹"></textarea>
+    <button class="btn-send" onclick="addWish(event)">Kirim 🌹</button>
+  </div>
+  <p class="final-roses">🌹 🥀 🌹 🥀 🌹</p>
+</section>
+
+</div><!-- end slides-wrap -->
+
+<script>
+/* ════ CONFIG — EDIT DI SINI ════ */
+const BIRTHDAY_MONTH = 12; // ✏️ Bulan (1-12)
+const BIRTHDAY_DAY   = 25; // ✏️ Tanggal (1-31)
+/* ══════════════════════════════ */
+
+const TOTAL = 5;
+let current = 0;
+let animating = false;
+
+/* ── DOTS ── */
+const dotsEl = document.getElementById('dots');
+for (let i = 0; i < TOTAL; i++) {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  dotsEl.appendChild(d);
+}
+function updateDots() {
+  document.querySelectorAll('.dot').forEach((d,i) => {
+    d.className = 'dot' + (i === current ? ' active' : '');
+  });
+}
+
+/* ── STARS ── */
+(function() {
+  const c = document.getElementById('stars');
+  for (let i = 0; i < 80; i++) {
+    const s = document.createElement('div'); s.className = 'star';
+    const sz = Math.random() * 2 + 0.5;
+    s.style.cssText = `width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--d:${2+Math.random()*4}s;--dl:${Math.random()*5}s;`;
+    c.appendChild(s);
+  }
+})();
+
+/* ── BURST PETALS (on slide change) ── */
+function burstPetals() {
+  const wrap = document.getElementById('petals');
+  const shades = ['#c0182a','#d42035','#e8304a','#7a0c1a','#b01020','#e84060','#ff6080'];
+  for (let i = 0; i < 55; i++) {
+    setTimeout(() => {
+      const p = document.createElement('div'); p.className = 'petal';
+      const w = 8 + Math.random() * 16, h = w * (1 + Math.random() * 0.7);
+      p.style.cssText = `width:${w}px;height:${h}px;--dur:${2.5+Math.random()*3}s;--delay:0s;left:${Math.random()*100}%;background:${shades[Math.floor(Math.random()*shades.length)]};opacity:${0.5+Math.random()*0.5};`;
+      wrap.appendChild(p);
+      setTimeout(() => p.remove(), 6000);
+    }, i * 40);
+  }
+}
+
+/* ── CONFETTI BURST ── */
+function burstConfetti() {
+  const cols = ['#c0182a','#e8304a','#f4a0a8','#ffffff','#d42035','#c8943a'];
+  for (let i = 0; i < 70; i++) {
+    setTimeout(() => {
+      const p = document.createElement('div'); p.className = 'conf';
+      const shapes = ['50%','0','50% 0 0 50%'];
+      p.style.cssText = `left:${Math.random()*100}vw;top:0;background:${cols[Math.floor(Math.random()*cols.length)]};animation-duration:${1.4+Math.random()*2.2}s;border-radius:${shapes[Math.floor(Math.random()*shapes.length)]};width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;`;
+      document.body.appendChild(p);
+      setTimeout(() => p.remove(), 4000);
+    }, i * 30);
+  }
+}
+
+/* ── SLIDE NAVIGATION ── */
+function nextSlide(e) {
+  if (e) e.stopPropagation();
+  if (animating) return;
+  // on last slide, don't navigate away
+  if (current >= TOTAL - 1) { burstPetals(); burstConfetti(); return; }
+  animating = true;
+
+  burstPetals();
+  burstConfetti();
+
+  const slides = document.querySelectorAll('.slide');
+  slides[current].classList.add('exit');
+  slides[current].classList.remove('active');
+
+  current++;
+  updateDots();
+
+  setTimeout(() => {
+    slides[current - 1].classList.remove('exit');
+    slides[current].classList.add('active');
+    animating = false;
+
+    // hide hint after first slide
+    if (current === 1) document.getElementById('hint').style.opacity = '0';
+  }, 300);
+}
+
+/* click anywhere = next slide (except form inputs) */
+document.getElementById('slides').addEventListener('click', function(e) {
+  const tag = e.target.tagName.toLowerCase();
+  if (['input','textarea','button'].includes(tag)) return;
+  nextSlide(e);
+});
+
+/* swipe support */
+let touchStartX = 0;
+document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, {passive:true});
+document.addEventListener('touchend', e => {
+  const dx = touchStartX - e.changedTouches[0].clientX;
+  if (Math.abs(dx) > 40) nextSlide(e);
+});
+
+function stopProp(e) { e.stopPropagation(); }
+
+/* ── COUNTDOWN ── */
+function countdown() {
+  const now = new Date();
+  const target = new Date(now.getFullYear(), BIRTHDAY_MONTH - 1, BIRTHDAY_DAY);
+  if (target <= now) target.setFullYear(target.getFullYear() + 1);
+  const diff = target - now;
+  document.getElementById('cd-days').textContent  = String(Math.floor(diff/86400000)).padStart(2,'0');
+  document.getElementById('cd-hours').textContent = String(Math.floor((diff%86400000)/3600000)).padStart(2,'0');
+  document.getElementById('cd-mins').textContent  = String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+  document.getElementById('cd-secs').textContent  = String(Math.floor((diff%60000)/1000)).padStart(2,'0');
+  const days = Math.floor(diff/86400000);
+  document.getElementById('cd-message').textContent =
+    days === 0 ? '🌹 Hari ini hari istimewamu! 🌹' : `Masih ${days} hari lagi 🌹`;
+}
+countdown(); setInterval(countdown, 1000);
+
+/* ── ADD WISH ── */
+function addWish(e) {
+  e.stopPropagation();
+  const name = document.getElementById('w-name').value.trim();
+  const text = document.getElementById('w-text').value.trim();
+  if (!name || !text) { alert('Isi nama dan ucapanmu ya! 🌹'); return; }
+  const initials = name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0,2);
+  const item = document.createElement('div'); item.className = 'wish-item';
+  item.innerHTML = `<div class="wish-avatar">${initials}</div><div class="wish-content"><p class="wish-name">${name} 🌹</p><p class="wish-text">${text}</p><p class="wish-time">Baru saja</p></div>`;
+  const list = document.getElementById('wish-list');
+  list.prepend(item);
+  document.getElementById('w-name').value = '';
+  document.getElementById('w-text').value = '';
+  burstPetals(); burstConfetti();
+}
+</script>
+</body>
+</html>
