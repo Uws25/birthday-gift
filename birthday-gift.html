@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday 🌹</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --red: #c0182a;
+    --red-light: #e8304a;
+    --red-deep: #7a0c1a;
+    --petal: #d42035;
+    --gold: #c8943a;
+    --cream: #fdf5f0;
+    --dark: #1a0608;
+    --mid: #2e0c10;
+    --text: rgba(255,255,255,0.93);
+    --muted: rgba(255,255,255,0.52);
+    --soft: rgba(255,255,255,0.07);
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Lato', sans-serif;
+    background: var(--dark);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── FALLING PETALS ── */
+  .petal-wrap { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+  .petal {
+    position: absolute; top: -60px;
+    width: var(--w, 14px); height: var(--h, 18px);
+    background: var(--petal);
+    border-radius: 50% 20% 50% 20%;
+    opacity: 0.7;
+    animation: petalFall var(--dur, 8s) linear var(--delay, 0s) infinite;
+    transform-origin: center;
+  }
+  @keyframes petalFall {
+    0%   { transform: translateY(0) rotate(0deg) translateX(0); opacity: 0.8; }
+    25%  { transform: translateY(25vh) rotate(90deg) translateX(20px); }
+    50%  { transform: translateY(50vh) rotate(180deg) translateX(-15px); opacity: 0.6; }
+    75%  { transform: translateY(75vh) rotate(270deg) translateX(25px); }
+    100% { transform: translateY(105vh) rotate(360deg) translateX(-10px); opacity: 0; }
+  }
+
+  /* ── STARS BG ── */
+  .stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+  .star {
+    position: absolute; border-radius: 50%; background: white;
+    animation: twinkle var(--d, 3s) ease-in-out infinite var(--delay2, 0s);
+  }
+  @keyframes twinkle { 0%,100%{opacity:0.15;} 50%{opacity:0.7;} }
+
+  /* ── ROSE SVG DECORATIONS ── */
+  .rose-deco { position: absolute; opacity: 0.18; pointer-events: none; }
+
+  /* ── LAYOUT ── */
+  .page { position: relative; z-index: 1; }
+
+  /* ── NAV ── */
+  nav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.1rem 2.5rem;
+    border-bottom: 0.5px solid rgba(192,24,42,0.25);
+    backdrop-filter: blur(12px);
+    background: rgba(26,6,8,0.7);
+    position: sticky; top: 0; z-index: 10;
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem; color: var(--gold); letter-spacing: 2px;
+  }
+  .nav-links { display: flex; gap: 1.6rem; }
+  .nav-links a {
+    font-size: 0.78rem; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; cursor: pointer;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--red-light); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 88vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 4rem 2rem;
+    position: relative;
+  }
+  .hero-roses {
+    display: flex; gap: 0; justify-content: center;
+    margin-bottom: 1.8rem;
+  }
+  .rose-icon { font-size: 2.2rem; animation: roseSway var(--s, 3s) ease-in-out infinite var(--ds, 0s); }
+  @keyframes roseSway {
+    0%,100% { transform: rotate(-6deg) scale(1); }
+    50% { transform: rotate(6deg) scale(1.08); }
+  }
+  .hero-label {
+    font-size: 0.72rem; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--red-light); margin-bottom: 1rem;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.6rem, 6.5vw, 4.6rem);
+    line-height: 1.12;
+    color: var(--cream);
+    margin-bottom: 0.6rem;
+  }
+  .hero-title span {
+    background: linear-gradient(135deg, #e8304a 0%, #c0182a 40%, var(--gold) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero-name {
+    font-family: 'Playfair Display', serif; font-style: italic;
+    font-size: clamp(1.5rem, 4vw, 2.6rem);
+    color: var(--gold); margin-bottom: 1.4rem;
+  }
+  .hero-sub {
+    font-size: 1rem; color: var(--muted); max-width: 440px;
+    line-height: 1.85; margin-bottom: 2.4rem;
+  }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: linear-gradient(135deg, var(--red), var(--red-deep));
+    border: 1px solid rgba(232,48,74,0.4);
+    color: white; font-size: 0.8rem; letter-spacing: 2px;
+    text-transform: uppercase; font-weight: 700;
+    padding: 0.9rem 2.4rem; border-radius: 50px; cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 24px rgba(192,24,42,0.4);
+  }
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 36px rgba(192,24,42,0.55); }
+  .float-rose { animation: floatUp 3.2s ease-in-out infinite; display: inline-block; }
+  @keyframes floatUp { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-8px);} }
+
+  /* ── ROSE DIVIDER ── */
+  .rose-divider {
+    text-align: center; padding: 1rem 0; font-size: 1.4rem;
+    letter-spacing: 12px; color: rgba(192,24,42,0.45);
+  }
+
+  /* ── COUNTDOWN ── */
+  #countdown {
+    padding: 5rem 2rem; text-align: center;
+    background: linear-gradient(180deg, var(--dark) 0%, var(--mid) 100%);
+    position: relative; overflow: hidden;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif; font-size: 2rem;
+    color: var(--cream); margin-bottom: 0.4rem;
+  }
+  .section-title .accent { color: var(--red-light); }
+  .section-sub { font-size: 0.82rem; color: var(--muted); letter-spacing: 1.5px; margin-bottom: 2.8rem; }
+  .countdown-grid {
+    display: flex; justify-content: center; gap: 1.2rem; flex-wrap: wrap;
+  }
+  .cd-box {
+    background: var(--soft);
+    border: 0.5px solid rgba(192,24,42,0.3);
+    border-radius: 16px; padding: 1.5rem 1.8rem; min-width: 95px;
+    transition: border-color 0.3s, transform 0.2s;
+    position: relative; overflow: hidden;
+  }
+  .cd-box::before {
+    content: '🌹'; position: absolute; top: 4px; right: 6px;
+    font-size: 0.7rem; opacity: 0.4;
+  }
+  .cd-box:hover { border-color: var(--red-light); transform: translateY(-2px); }
+  .cd-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem; font-weight: 700;
+    color: var(--red-light); display: block; line-height: 1;
+  }
+  .cd-label { font-size: 0.68rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-top: 6px; }
+  .cd-message {
+    margin-top: 2rem; font-family: 'Playfair Display', serif;
+    font-style: italic; font-size: 1.1rem; color: var(--gold);
+  }
+
+  /* ── MESSAGE ── */
+  #message { padding: 6rem 2rem; max-width: 720px; margin: 0 auto; text-align: center; }
+  .msg-rose-row {
+    display: flex; justify-content: center; gap: 6px;
+    margin-bottom: 2rem; font-size: 1.6rem;
+  }
+  .msg-card {
+    background: linear-gradient(135deg, rgba(192,24,42,0.08) 0%, rgba(26,6,8,0.6) 100%);
+    border: 0.5px solid rgba(192,24,42,0.35);
+    border-radius: 24px; padding: 3rem 3.2rem; position: relative;
+  }
+  .msg-card::before {
+    content: '🌹'; position: absolute; top: -16px; left: 50%;
+    transform: translateX(-50%); font-size: 2rem;
+    background: var(--dark); padding: 0 12px;
+  }
+  .msg-card::after {
+    content: ''; position: absolute;
+    inset: 0; border-radius: 24px;
+    background: linear-gradient(135deg, transparent 60%, rgba(192,24,42,0.06));
+    pointer-events: none;
+  }
+  .msg-quote {
+    font-family: 'Playfair Display', serif; font-size: 1.12rem;
+    line-height: 2; color: var(--text); font-style: italic; margin-bottom: 1.8rem;
+  }
+  .msg-from { font-size: 0.78rem; letter-spacing: 2px; color: var(--red-light); text-transform: uppercase; }
+
+  /* ── GALLERY ── */
+  #gallery { padding: 5rem 2rem; text-align: center; position: relative; }
+  .gallery-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 14px; max-width: 720px; margin: 0 auto;
+  }
+  .gallery-item {
+    aspect-ratio: 1; border-radius: 16px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: transform 0.28s, border-color 0.28s, box-shadow 0.28s;
+    border: 0.5px solid rgba(192,24,42,0.2);
+    overflow: hidden; position: relative; font-size: 3rem;
+  }
+  .gallery-item:hover {
+    transform: scale(1.05);
+    border-color: var(--red-light);
+    box-shadow: 0 8px 32px rgba(192,24,42,0.3);
+  }
+  .gallery-item .g-label {
+    position: absolute; bottom: 8px;
+    font-size: 0.65rem; letter-spacing: 1.5px; text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+  }
+  .g1 { background: linear-gradient(135deg, #3a0810, #1a0406); }
+  .g2 { background: linear-gradient(135deg, #200a08, #150504); }
+  .g3 { background: linear-gradient(135deg, #2a0c0c, #180606); }
+  .g4 { background: linear-gradient(135deg, #1e0a10, #120508); }
+  .g5 { background: linear-gradient(135deg, #350a10, #1e060c); }
+  .g6 { background: linear-gradient(135deg, #240c08, #160604); }
+  .add-photo-btn {
+    aspect-ratio: 1; border-radius: 16px;
+    border: 1px dashed rgba(192,24,42,0.3);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    cursor: pointer; background: transparent;
+    color: var(--muted); font-size: 0.78rem; letter-spacing: 1px;
+    transition: border-color 0.25s, background 0.25s, color 0.25s;
+  }
+  .add-photo-btn:hover { border-color: var(--red-light); color: var(--red-light); background: var(--soft); }
+  .add-icon { font-size: 1.8rem; margin-bottom: 6px; }
+
+  /* ── WISHES ── */
+  #wishes { padding: 5rem 2rem; max-width: 680px; margin: 0 auto; text-align: center; }
+  .wish-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 2rem; }
+  .wish-item {
+    background: var(--soft);
+    border: 0.5px solid rgba(192,24,42,0.18);
+    border-radius: 16px; padding: 1.1rem 1.4rem;
+    display: flex; align-items: flex-start; gap: 12px; text-align: left;
+    transition: border-color 0.25s;
+  }
+  .wish-item:hover { border-color: rgba(192,24,42,0.4); }
+  .wish-avatar {
+    width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px;
+    background: rgba(192,24,42,0.2); color: var(--red-light);
+  }
+  .wish-content { flex: 1; }
+  .wish-name { font-size: 0.82rem; font-weight: 700; color: var(--cream); margin-bottom: 4px; }
+  .wish-text { font-size: 0.86rem; color: var(--muted); line-height: 1.65; }
+  .wish-rose { font-size: 0.9rem; }
+  .wish-time { font-size: 0.68rem; color: rgba(255,255,255,0.28); margin-top: 5px; }
+  .wish-form { display: flex; flex-direction: column; gap: 10px; }
+  .wish-form input, .wish-form textarea {
+    background: rgba(192,24,42,0.05);
+    border: 0.5px solid rgba(192,24,42,0.25);
+    border-radius: 12px; padding: 0.9rem 1.2rem;
+    color: var(--text); font-family: 'Lato', sans-serif; font-size: 0.88rem;
+    outline: none; resize: vertical; transition: border-color 0.25s;
+  }
+  .wish-form input:focus, .wish-form textarea:focus { border-color: var(--red-light); }
+  .wish-form input::placeholder, .wish-form textarea::placeholder { color: rgba(255,255,255,0.3); }
+  .btn-send {
+    background: transparent; border: 0.5px solid var(--red-light);
+    color: var(--red-light); padding: 0.82rem 2.2rem; border-radius: 50px;
+    font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase;
+    cursor: pointer; transition: background 0.25s, color 0.25s;
+    align-self: flex-end;
+  }
+  .btn-send:hover { background: var(--red-light); color: white; }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 3rem 2rem; text-align: center;
+    border-top: 0.5px solid rgba(192,24,42,0.15);
+    background: linear-gradient(0deg, rgba(192,24,42,0.06), transparent);
+  }
+  .footer-roses { font-size: 1.5rem; letter-spacing: 8px; margin-bottom: 8px; }
+  .footer-text { font-size: 0.76rem; color: var(--muted); letter-spacing: 1.5px; }
+
+  /* ── CONFETTI ── */
+  .confetti-piece {
+    position: fixed; width: 8px; height: 8px; border-radius: 2px;
+    animation: fall linear forwards; pointer-events: none; z-index: 999;
+  }
+  @keyframes fall {
+    0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    nav { padding: 1rem 1.2rem; }
+    .nav-links { gap: 1rem; }
+    .msg-card { padding: 2rem 1.5rem; }
+    #message { padding: 4rem 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- FALLING PETALS -->
+<div class="petal-wrap" id="petals"></div>
+<!-- STARS -->
+<div class="stars" id="stars"></div>
+
+<div class="page">
+
+<!-- ══ NAV ══ -->
+<nav>
+  <span class="nav-logo">🌹 Selamat Ulang Tahun</span>
+  <div class="nav-links">
+    <a onclick="document.getElementById('countdown').scrollIntoView({behavior:'smooth'})">Hitung Mundur</a>
+    <a onclick="document.getElementById('message').scrollIntoView({behavior:'smooth'})">Pesan</a>
+    <a onclick="document.getElementById('gallery').scrollIntoView({behavior:'smooth'})">Galeri</a>
+    <a onclick="document.getElementById('wishes').scrollIntoView({behavior:'smooth'})">Ucapan</a>
+  </div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section id="hero">
+  <div class="hero-roses">
+    <span class="rose-icon" style="--s:3.2s;--ds:0s">🌹</span>
+    <span class="rose-icon" style="--s:2.8s;--ds:0.3s">🌹</span>
+    <span class="rose-icon" style="--s:3.5s;--ds:0.6s">🌹</span>
+    <span class="rose-icon" style="--s:2.6s;--ds:0.9s">🌹</span>
+    <span class="rose-icon" style="--s:3.1s;--ds:0.4s">🌹</span>
+    <span class="rose-icon" style="--s:2.9s;--ds:0.7s">🌹</span>
+    <span class="rose-icon" style="--s:3.3s;--ds:0.2s">🌹</span>
+  </div>
+  <p class="hero-label">✦ &nbsp; Hari Istimewamu &nbsp; ✦</p>
+  <h1 class="hero-title">Happy <span>Birthday,</span></h1>
+  <!-- ✏️ GANTI NAMA DI SINI -->
+  <p class="hero-name" id="hero-name">Sahabatku Tercinta 🌹</p>
+  <!-- ✏️ GANTI DESKRIPSI DI SINI -->
+  <p class="hero-sub">Di hari yang ajaib ini, bunga mawar merah mekar untukmu — secantik senyummu, semerah cintaku untukmu sebagai sahabat terbaik.</p>
+  <button class="btn-primary" onclick="launchConfetti()">
+    <span class="float-rose">🌹</span> Rayakan Bersama!
+  </button>
+</section>
+
+<div class="rose-divider">🌹 🥀 🌹 🥀 🌹 🥀 🌹</div>
+
+<!-- ══ COUNTDOWN ══ -->
+<section id="countdown">
+  <h2 class="section-title">Hitung <span class="accent">Mundur</span></h2>
+  <!-- ✏️ GANTI TANGGAL ULANG TAHUN DI BAWAH (di dalam script) -->
+  <p class="section-sub">Menuju hari istimewamu</p>
+  <div class="countdown-grid">
+    <div class="cd-box"><span class="cd-num" id="cd-days">--</span><span class="cd-label">Hari</span></div>
+    <div class="cd-box"><span class="cd-num" id="cd-hours">--</span><span class="cd-label">Jam</span></div>
+    <div class="cd-box"><span class="cd-num" id="cd-mins">--</span><span class="cd-label">Menit</span></div>
+    <div class="cd-box"><span class="cd-num" id="cd-secs">--</span><span class="cd-label">Detik</span></div>
+  </div>
+  <p class="cd-message" id="cd-message"></p>
+</section>
+
+<div class="rose-divider">🌹 🌹 🌹 🌹 🌹</div>
+
+<!-- ══ MESSAGE ══ -->
+<section id="message">
+  <div class="msg-rose-row">
+    <span>🌹</span><span>🥀</span><span>🌹</span><span>🥀</span><span>🌹</span>
+  </div>
+  <h2 class="section-title">Pesan <span class="accent" style="color:var(--red-light)">Untukmu</span></h2>
+  <p class="section-sub" style="margin-bottom:2rem">Dari hati yang paling dalam</p>
+  <div class="msg-card">
+    <!-- ✏️ GANTI ISI PESAN DI SINI -->
+    <p class="msg-quote" id="msg-quote">
+      "Seperti mawar merah yang mekar di pagi hari — kamu selalu membawa keindahan dan kehangatan ke dalam hidupku. Kamu adalah sahabat yang tak tergantikan, hadirmu adalah anugerah terbesar. Di hari spesialmu ini, aku berharap setiap impianmu mekar indah seperti bunga favoritmu. Semoga hidupmu selalu dipenuhi warna merah yang berani dan harum yang abadi. 🌹"
+    </p>
+    <!-- ✏️ GANTI NAMA PENGIRIM DI SINI -->
+    <p class="msg-from" id="msg-from">— Dari sahabatmu yang mencintaimu dengan tulus 🌹</p>
+  </div>
+</section>
+
+<!-- ══ GALLERY ══ -->
+<section id="gallery">
+  <h2 class="section-title">Galeri <span class="accent" style="color:var(--red-light)">Kenangan</span></h2>
+  <p class="section-sub">Momen manis yang selalu kita ingat</p>
+  <div class="gallery-grid">
+    <!-- ✏️ GANTI EMOJI/GAMBAR DENGAN FOTO ASLI MENGGUNAKAN <img src="..."> -->
+    <div class="gallery-item g1">🌹<span class="g-label">Momen 1</span></div>
+    <div class="gallery-item g2">🌹<span class="g-label">Momen 2</span></div>
+    <div class="gallery-item g3">🌹<span class="g-label">Momen 3</span></div>
+    <div class="gallery-item g4">🌹<span class="g-label">Momen 4</span></div>
+    <div class="gallery-item g5">🌹<span class="g-label">Momen 5</span></div>
+    <div class="gallery-item g6">🌹<span class="g-label">Momen 6</span></div>
+    <div class="add-photo-btn" onclick="alert('Ganti emoji di gallery-item dengan tag: <img src=\\'foto.jpg\\'>')">
+      <span class="add-icon">+</span>Tambah Foto
+    </div>
+  </div>
+</section>
+
+<div class="rose-divider">🌹 🥀 🌹 🥀 🌹 🥀 🌹</div>
+
+<!-- ══ WISHES ══ -->
+<section id="wishes">
+  <h2 class="section-title">Tulis <span class="accent" style="color:var(--red-light)">Ucapan</span></h2>
+  <p class="section-sub">Bagikan doamu untuk hari ini</p>
+  <div class="wish-list" id="wish-list">
+    <div class="wish-item">
+      <div class="wish-avatar">AN</div>
+      <div class="wish-content">
+        <p class="wish-name">Anita <span class="wish-rose">🌹</span></p>
+        <p class="wish-text">Selamat ulang tahun! Semoga selalu sehat, bahagia, dan semua cita-citamu tercapai. Kamu is the best! 🌹</p>
+        <p class="wish-time">2 jam lalu</p>
+      </div>
+    </div>
+    <div class="wish-item">
+      <div class="wish-avatar">RI</div>
+      <div class="wish-content">
+        <p class="wish-name">Rini <span class="wish-rose">🥀</span></p>
+        <p class="wish-text">Happy birthday bestie! Makasih udah jadi teman terbaik, secantik bunga mawar favoritmu! 🌹💖</p>
+        <p class="wish-time">5 jam lalu</p>
+      </div>
+    </div>
+    <div class="wish-item">
+      <div class="wish-avatar">DW</div>
+      <div class="wish-content">
+        <p class="wish-name">Dwi <span class="wish-rose">🌹</span></p>
+        <p class="wish-text">Tambah umur tambah cantik seperti bunga mawar yang semakin mekar! Bahagia selalu ya! 🌹🎂</p>
+        <p class="wish-time">kemarin</p>
+      </div>
+    </div>
+  </div>
+  <div class="wish-form">
+    <input type="text" id="w-name" placeholder="Namamu" maxlength="30" />
+    <textarea id="w-text" rows="3" placeholder="Tulis ucapan spesialmu di sini... 🌹"></textarea>
+    <button class="btn-send" onclick="addWish()">Kirim Ucapan 🌹</button>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-roses">🌹 🥀 🌹 🥀 🌹</div>
+  <!-- ✏️ GANTI TAHUN / NAMA DI SINI -->
+  <p class="footer-text">Dibuat dengan cinta &amp; bunga mawar merah · 2025</p>
+</footer>
+
+</div><!-- end .page -->
+
+<script>
+/* ── CONFIG — EDIT DI SINI ──────────────────────────────────
+   Ubah tanggal ulang tahun: bulan = 1-12, tanggal = 1-31
+─────────────────────────────────────────────────────────── */
+const BIRTHDAY_MONTH = 12; // ✏️ Ganti bulan
+const BIRTHDAY_DAY   = 25; // ✏️ Ganti tanggal
+
+/* ── STARS ───────────────────────────────────────────────── */
+(function makeStars() {
+  const c = document.getElementById('stars');
+  for (let i = 0; i < 80; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const sz = Math.random() * 2 + 0.5;
+    s.style.cssText = `width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--d:${2+Math.random()*4}s;--delay2:${Math.random()*5}s;`;
+    c.appendChild(s);
+  }
+})();
+
+/* ── FALLING PETALS ──────────────────────────────────────── */
+(function makePetals() {
+  const wrap = document.getElementById('petals');
+  const shades = ['#c0182a','#d42035','#e8304a','#7a0c1a','#b01020','#e84060'];
+  for (let i = 0; i < 30; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    const w = 8 + Math.random() * 14;
+    const h = w * (1 + Math.random() * 0.6);
+    p.style.cssText = `--w:${w}px;--h:${h}px;--dur:${6+Math.random()*8}s;--delay:${Math.random()*10}s;left:${Math.random()*100}%;background:${shades[Math.floor(Math.random()*shades.length)]};opacity:${0.4+Math.random()*0.5};`;
+    wrap.appendChild(p);
+  }
+})();
+
+/* ── COUNTDOWN ───────────────────────────────────────────── */
+function countdown() {
+  const now    = new Date();
+  const target = new Date(now.getFullYear(), BIRTHDAY_MONTH - 1, BIRTHDAY_DAY);
+  if (target <= now) target.setFullYear(target.getFullYear() + 1);
+  const diff  = target - now;
+  const days  = Math.floor(diff / 86400000);
+  const hours = Math.floor((diff % 86400000) / 3600000);
+  const mins  = Math.floor((diff % 3600000) / 60000);
+  const secs  = Math.floor((diff % 60000) / 1000);
+  document.getElementById('cd-days').textContent  = String(days).padStart(2,'0');
+  document.getElementById('cd-hours').textContent = String(hours).padStart(2,'0');
+  document.getElementById('cd-mins').textContent  = String(mins).padStart(2,'0');
+  document.getElementById('cd-secs').textContent  = String(secs).padStart(2,'0');
+  document.getElementById('cd-message').textContent =
+    (days === 0 && hours === 0)
+      ? '🌹 Hari ini adalah hari istimewamu! Selamat Ulang Tahun! 🌹'
+      : `Masih ${days} hari lagi menuju hari spesialmu 🌹`;
+}
+countdown();
+setInterval(countdown, 1000);
+
+/* ── CONFETTI ────────────────────────────────────────────── */
+function launchConfetti() {
+  const colors = ['#c0182a','#e8304a','#f4a0a8','#ffffff','#d42035','#c8943a','#ff6080'];
+  for (let i = 0; i < 80; i++) {
+    setTimeout(() => {
+      const p = document.createElement('div');
+      p.className = 'confetti-piece';
+      const shapes = ['50%','0','50% 0 0 50%'];
+      p.style.cssText = `left:${Math.random()*100}vw;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${1.4+Math.random()*2.2}s;border-radius:${shapes[Math.floor(Math.random()*shapes.length)]};width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;`;
+      document.body.appendChild(p);
+      setTimeout(() => p.remove(), 4000);
+    }, i * 35);
+  }
+}
+
+/* ── ADD WISH ────────────────────────────────────────────── */
+function addWish() {
+  const name = document.getElementById('w-name').value.trim();
+  const text = document.getElementById('w-text').value.trim();
+  if (!name || !text) { alert('Isi nama dan ucapanmu ya! 🌹'); return; }
+  const initials = name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+  const roses = ['🌹','🥀','🌹'];
+  const item  = document.createElement('div');
+  item.className = 'wish-item';
+  item.innerHTML = `
+    <div class="wish-avatar">${initials}</div>
+    <div class="wish-content">
+      <p class="wish-name">${name} <span class="wish-rose">${roses[Math.floor(Math.random()*roses.length)]}</span></p>
+      <p class="wish-text">${text}</p>
+      <p class="wish-time">Baru saja</p>
+    </div>`;
+  document.getElementById('wish-list').prepend(item);
+  document.getElementById('w-name').value = '';
+  document.getElementById('w-text').value = '';
+  launchConfetti();
+}
+</script>
+</body>
+</html>
